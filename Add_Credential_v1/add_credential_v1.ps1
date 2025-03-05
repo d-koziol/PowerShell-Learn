@@ -4,11 +4,11 @@ $username = "$($env:USERNAME)@domain"
 # Request to enter the user’s password
 $password = Read-Host -Prompt "Write yor password here:" -AsSecureString
 
-# Tworzenie obiektu poświadczeń
+# Creating Credential Object
 $credential = New-Object -TypeName PSCredential -ArgumentList $username, (ConvertTo-SecureString $password -AsPlainText -Force)
 
-# Dodawanie poświadczenia rodzajowego do Menedżera poświadczeń
+# Adding Generic Credentials in Credential Menager
 $cmd = "cmdkey /generic:$target /user:$username /pass:$password"
 Invoke-Expression $cmd
 
-Write-Output "Poświadczenie rodzajowe zostało dodane dla adresu '$target' z nazwą użytkownika '$username'."
+Write-Output "A Generic Credential has been added for the address ‘$target’ with the username ‘$username’.."
