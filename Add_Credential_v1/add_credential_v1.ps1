@@ -1,4 +1,4 @@
-﻿# Definiowanie zmiennych
+﻿# Definig Variables
 $target = "TERMSRV/$($env:USERNAME).domain"
 $username = "$($env:USERNAME)@domain"
 # Request to enter the user’s password
