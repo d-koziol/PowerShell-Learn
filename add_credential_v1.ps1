@@ -1,7 +1,7 @@
 ﻿# Definiowanie zmiennych
 $target = "TERMSRV/$($env:USERNAME).domain"
 $username = "$($env:USERNAME)@domain"
-# Prośba o wpisanie hasła użytkownika
+# Request to enter the user’s password
 $password = Read-Host -Prompt "Write yor password here:" -AsSecureString
 
 # Tworzenie obiektu poświadczeń
