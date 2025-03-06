@@ -29,8 +29,15 @@ if (!(Test-Path $logFile)) {
 }
 
 if (Test-Path $sourcePath) {
-    Copy-Item -Path "$sourcePath\*" -Destination "$destinationPath" -Recurse 
-    Write-log "'Files has been copied from '$sourcePath' to '$destinationPath.'"
+    $files = Get-ChildItem -Path $sourcePath -File
+    if ($files.Count -gt 0) {
+        foreach ($file in $files) {
+            Copy-Item -Path $file.FullName -Destination $destinationPath -Recurse
+            Write-log "Copied $($file.Count) file: $($file.Name) from '$sourcePath' to '$destinationPath'."
+        } 
+    } else {
+        Write-log "There is nothing to backup."
+    }
 } else {
-    Write-log "There' nothing to backup."
+    Write-log "Source path '$sourcePath' does not exist."
 }
