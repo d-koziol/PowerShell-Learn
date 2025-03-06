@@ -28,13 +28,19 @@ if (!(Test-Path $logFile)) {
     Write-log "'Log' file already exists." 
 }
 
+# Script checks and counts files and copies them if they exist.
 if (Test-Path $sourcePath) {
     $files = Get-ChildItem -Path $sourcePath -File
+    $filesCount = ($files | Measure-Object). Count
     if ($files.Count -gt 0) {
         foreach ($file in $files) {
-            Copy-Item -Path $file.FullName -Destination $destinationPath -Recurse
-            Write-log "Copied $($file.Count) file: $($file.Name) from '$sourcePath' to '$destinationPath'."
+            $destFile = Join-Path $destinationPath $file.Name
+                if (!(Test-Path $destFile) -or ($file.LastWriteTime -gt (Get-Item $destFile).LastWriteTime)){
+                    Copy-Item -Path $file.FullName -Destination $destinationPath -Recurse
+                    Write-log "Copied file: $($file.Name) from '$sourcePath' to '$destinationPath'."
+                }
         } 
+        Write-log "Total files copied: $filesCount"
     } else {
         Write-log "There is nothing to backup."
     }
