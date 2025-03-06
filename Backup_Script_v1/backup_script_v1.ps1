@@ -27,3 +27,10 @@ if (!(Test-Path $logFile)) {
 } else {
     Write-log "'Log' file already exists." 
 }
+
+if (Test-Path $sourcePath) {
+    Copy-Item -Path "$sourcePath\*" -Destination "$destinationPath" -Recurse 
+    Write-log "'Files has been copied from '$sourcePath' to '$destinationPath.'"
+} else {
+    Write-log "There' nothing to backup."
+}
