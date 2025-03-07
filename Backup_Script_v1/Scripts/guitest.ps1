@@ -24,3 +24,9 @@ $enableCheckbox.Text = "Enable daily backup"
 $enableCheckbox.Location = New-Object System.Drawing.Point(50,50)
 $enableCheckbox.Size = New-Object System.Drawing.Size(200,30)
 $form.Controls.Add($enableCheckbox)
+
+$disableCheckbox = New-Object System.Windows.Forms.CheckBox
+$disableCheckbox.Text = "Disable daily backup"
+$disableCheckbox.Location = New-Object System.Drawing.Point(100,100)
+$disableCheckbox.Size = New-Object System.Drawing.Size(200,30)
+$form.Controls.Add($disableCheckbox)
