@@ -18,3 +18,9 @@ $disableBtn.Text = "Disable"
 $disableBtn.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
 $form.CancelButton = $disableBtn
 $form.Controls.Add($disableBtn)
+
+$enableCheckbox = New-Object System.Windows.Forms.CheckBox
+$enableCheckbox.Text = "Enable daily backup"
+$enableCheckbox.Location = New-Object System.Drawing.Point(50,50)
+$enableCheckbox.Size = New-Object System.Drawing.Size(200,30)
+$form.Controls.Add($enableCheckbox)
