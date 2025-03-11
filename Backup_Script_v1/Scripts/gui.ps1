@@ -7,6 +7,12 @@ function checkBox_CheckedChanged {
     } else {
         $disableCheckbox.Enabled = $true
     }
+
+    if ($disableCheckbox.Checked) {
+        $enableCheckbox.Enabled = $false
+    } else {
+        $enableCheckbox.Enabled = $true
+    }
 }
 
 $form = New-Object System.Windows.Forms.Form
@@ -33,6 +39,7 @@ $disableCheckbox = New-Object System.Windows.Forms.CheckBox
 $disableCheckbox.Text = "Disable daily backup"
 $disableCheckbox.Location = New-Object System.Drawing.Point(80,70)
 $disableCheckbox.Size = New-Object System.Drawing.Size(200,30)
+$disableCheckbox.Add_CheckedChanged({checkBox_CheckedChanged})
 $form.Controls.Add($disableCheckbox)
 
 $form.TopMost = $true
