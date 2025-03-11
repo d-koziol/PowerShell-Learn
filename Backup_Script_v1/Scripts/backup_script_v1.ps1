@@ -1,3 +1,6 @@
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
 $userName = $env:USERNAME
 $sourcePath = "C:\Users\$($env:USERNAME)\Documents\"
 $destinationPath = "C:\Users\$($env:USERNAME)\Backup\"
@@ -46,4 +49,14 @@ if (Test-Path $sourcePath) {
     }
 } else {
     Write-log "Source path '$sourcePath' does not exist."
+}
+
+# Integrating both scripts with logic and GUI. 
+
+if ($result -eq [System.Windows.Forms.DialogResult]::OK){
+    if ($enableCheckbox.Checked) {
+        Write-Output "Daily backup enabled."
+    } else {
+        Write-Output "Daily backup disabled."
+    }
 }

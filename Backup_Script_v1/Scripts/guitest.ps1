@@ -24,5 +24,4 @@ $disableCheckbox.Size = New-Object System.Drawing.Size(200,30)
 $form.Controls.Add($disableCheckbox)
 
 $form.TopMost = $true
-$form.Add_Shown({$textBox.Select()})
 $result = $form.ShowDialog()
