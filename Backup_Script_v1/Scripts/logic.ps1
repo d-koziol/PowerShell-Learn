@@ -4,7 +4,7 @@ Add-Type -AssemblyName System.Drawing
 $userName = $env:USERNAME
 $sourcePath = "C:\Users\$($env:USERNAME)\Documents\"
 $destinationPath = "C:\Users\$($env:USERNAME)\Backup\"
-$logFile = "C:\Users\$($env:USERNAME)\Backup\backup_log.log"
+$logFile = "C:\Kopia\PowershellScripts\PowerShell-Learn\Backup_Script_v1\Logs\backup_log.log"
 
 function Write-log {
     param (
@@ -52,7 +52,6 @@ if (Test-Path $sourcePath) {
 }
 
 # Integrating both scripts with logic and GUI. 
-
 if ($result -eq [System.Windows.Forms.DialogResult]::OK){
     if ($enableCheckbox.Checked) {
         Write-Output "Daily backup enabled."
