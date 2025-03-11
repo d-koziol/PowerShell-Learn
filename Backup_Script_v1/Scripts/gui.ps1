@@ -17,16 +17,28 @@ function checkBox_CheckedChanged {
 
 $form = New-Object System.Windows.Forms.Form
 $form.Text = "Backup Settings"
-$form.Size = New-Object System.Drawing.Size(300,200)
+$form.Size = New-Object System.Drawing.Size(500,400)
 $form.StartPosition = "CenterScreen"
 
 $acceptBtn = New-Object System.Windows.Forms.Button
-$acceptBtn.Location = New-Object System.Drawing.Point(100,120)
+$acceptBtn.Location = New-Object System.Drawing.Point(150,320)
 $acceptBtn.Size = New-Object System.Drawing.Size(75,23)
 $acceptBtn.Text = "Accept"
 $acceptBtn.DialogResult = [System.Windows.Forms.DialogResult]::OK
+$acceptBtn.Font = New-Object System.Drawing.Font("Arial Italic", 9, [System.Drawing.FontStyle]::Italic)
 $form.AcceptButton = $acceptBtn
 $form.Controls.Add($acceptBtn)
+
+$exitBtn = New-Object System.Windows.Forms.Button
+$exitBtn.Location = New-Object System.Drawing.Point(250,320)
+$exitBtn.Size = New-Object System.Drawing.Size(75,23)
+$exitBtn.Text = "Exit"
+$exitBtn.DialogResult = [System.Windows.Forms.DialogResult]::OK
+$exitBtn.Font = New-Object System.Drawing.Font("Arial Italic", 9, [System.Drawing.FontStyle]::Italic)
+$exitBtn.Add_Click({
+    $form.Close()
+})
+$form.Controls.Add($exitBtn)
 
 $enableCheckbox = New-Object System.Windows.Forms.CheckBox
 $enableCheckbox.Text = "Enable daily backup"
@@ -37,7 +49,7 @@ $form.Controls.Add($enableCheckbox)
 
 $disableCheckbox = New-Object System.Windows.Forms.CheckBox
 $disableCheckbox.Text = "Disable daily backup"
-$disableCheckbox.Location = New-Object System.Drawing.Point(80,70)
+$disableCheckbox.Location = New-Object System.Drawing.Point(280,40)
 $disableCheckbox.Size = New-Object System.Drawing.Size(200,30)
 $disableCheckbox.Add_CheckedChanged({checkBox_CheckedChanged})
 $form.Controls.Add($disableCheckbox)
@@ -47,8 +59,8 @@ $result = $form.ShowDialog()
 
 if ($result -eq [System.Windows.Forms.DialogResult]::OK){
     if ($enableCheckbox.Checked) {
-        .\logic.ps1 -EnableBackup $true
+       & "C:\Kopia\PowershellScripts\PowerShell-Learn\Backup_Script_v1\Scripts\logic.ps1" -EnableBackup $true
     } else {
-        .\logic.ps1 -EnableBackup $false
+       & "C:\Kopia\PowershellScripts\PowerShell-Learn\Backup_Script_v1\Scripts\logic.ps1" -EnableBackup $false
     }
 }
