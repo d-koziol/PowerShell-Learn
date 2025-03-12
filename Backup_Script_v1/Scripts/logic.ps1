@@ -5,6 +5,7 @@ param (
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
+
 $userName = $env:USERNAME
 $sourcePath = "C:\Users\$($env:USERNAME)\Documents\"
 $destinationPath = "C:\Users\$($env:USERNAME)\Backup\"
@@ -59,4 +60,59 @@ if ($EnableBackup) {
     }
 } else {
     Write-Output "Daily backup disabled."
+}
+
+function selectBtnFn() {
+    $SelectedFile = Show-OpenFileDialog
+    if ($SelectedFile) {
+        Write-Output "Wybrany plik: $SelectedFile"
+        $BackupLocation = Show-FolderBrowserDialog
+        if ($BackupLocation) {
+            Write-Output "Miejsce docelowe dla kopii zapasowej: $BackupLocation"
+            & "C:\Kopia\PowershellScripts\PowerShell-Learn\Backup_Script_v1\Scripts\logic.ps1" -Source $SelectedFile -Destination $BackupLocation
+        } else {
+            Write-Output "Nie wybrano miejsca docelowego."
+        }
+    } else {
+        Write-Output "Nie wybrano żadnego pliku."
+    }
+}
+
+function checkBox_CheckedChanged {
+    if ($enableCheckbox.Checked) {
+        $disableCheckbox.Enabled = $false
+    } else {
+        $disableCheckbox.Enabled = $true
+    }
+
+    if ($disableCheckbox.Checked) {
+        $enableCheckbox.Enabled = $false
+    } else {
+        $enableCheckbox.Enabled = $true
+    }
+}
+
+function Show-OpenFileDialog {
+    $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
+    $OpenFileDialog.InitialDirectory = [System.Environment]::GetFolderPath('Desktop')
+    $OpenFileDialog.Filter = "Wszystkie pliki (*.*)|*.*"
+    $OpenFileDialog.Multiselect = $false
+    $DialogResult = $OpenFileDialog.ShowDialog()
+    if ($DialogResult -eq [System.Windows.Forms.DialogResult]::OK) {
+        return $OpenFileDialog.FileName
+    } else {
+        return $null
+    }
+}
+
+function Show-FolderBrowserDialog {
+    $FolderBrowserDialog = New-Object System.Windows.Forms.FolderBrowserDialog
+    $FolderBrowserDialog.Description = "Wybierz miejsce docelowe kopii zapasowej"
+    $FolderBrowserDialog.ShowNewFolderButton = $true
+    $DialogResult = $FolderBrowserDialog.ShowDialog()
+    if ($DialogResult -eq [System.Windows.Forms.DialogResult]::OK) {
+        return $FolderBrowserDialog.SelectedPath
+    } else {
+        return $null
+    }
 }
