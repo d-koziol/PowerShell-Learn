@@ -64,3 +64,28 @@ if ($result -eq [System.Windows.Forms.DialogResult]::OK){
        & "C:\Kopia\PowershellScripts\PowerShell-Learn\Backup_Script_v1\Scripts\logic.ps1" -EnableBackup $false
     }
 }
+
+function Show-OpenFileDialog {
+    $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
+    $OpenFileDialog.InitialDirectory = [System.Environment]::GetFolderPath('Desktop')
+    $OpenFileDialog.Filter = "Wszystkie pliki(*.*)|*.*"
+    $OpenFileDialog.Multiselect = $false
+    $DialogResult= $OpenFileDialog.ShowDialog()
+    if ($DialogResult -eq [System.Windows.Forms.DialogResult]::OK) {
+        return $OpenFileDialog.FileName
+    } else {
+        return $null
+    }
+}
+
+$SelectedFile = Show-OpenFileDialog
+if ($SelectedFile) {
+    Write-Output "Wybrany plik: $SelectedFile"
+    $BackupLocation = Show-FolderBrowserDialog
+    if ($BackupLocation) {
+        Write-Output "Miejsce docelowe dla kopii zapasowej: $BackupLocation"
+        "C:\Kopia\PowershellScripts\PowerShell-Learn\Backup_Script_v1\Scripts\logic.ps1" -Source $SelectedFile -Destination $BackupLocation
+    } else {
+        Write-Output "Nie wybrano miejca docelowego"
+    }
+}
