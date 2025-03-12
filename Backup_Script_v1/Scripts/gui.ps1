@@ -15,24 +15,20 @@ function checkBox_CheckedChanged {
     }
 }
 
-$SelectedFile = Show-OpenFileDialog
-if ($SelectedFile) {
-    Write-Output "Wybrany plik: $SelectedFile"
-    $BackupLocation = Show-FolderBrowserDialog
-    if ($BackupLocation) {
-        Write-Output "Miejsce docelowe dla kopii zapasowej: $BackupLocation"
-        & "C:\Kopia\PowershellScripts\PowerShell-Learn\Backup_Script_v1\Scripts\logic.ps1" -Source $SelectedFile -Destination $BackupLocation
-    } else {
-        Write-Output "Nie wybrano miejsca docelowego."
-    }
-} else {
-    Write-Output "Nie wybrano żadnego pliku."
-}
 
 $form = New-Object System.Windows.Forms.Form
 $form.Text = "Backup Settings"
 $form.Size = New-Object System.Drawing.Size(500,400)
 $form.StartPosition = "CenterScreen"
+
+$selectBtn = New-Object System.Windows.Forms.Button
+$selectBtn.Location = New-Object System.Drawing.Point(110,200)
+$selectBtn.Size = New-Object System.Drawing.Size(75,23)
+$selectBtn.Text = "Choose file:"
+$selectBtn.DialogResult = [System.Windows.Forms.DialogResult]::OK
+$selectBtn.Font = New-Object System.Drawing.Font("Arial Italic", 9, [System.Drawing.FontStyle]::Italic)
+$form.AcceptButton = $selectBtn
+$form.Controls.Add($selectBtn)
 
 $acceptBtn = New-Object System.Windows.Forms.Button
 $acceptBtn.Location = New-Object System.Drawing.Point(150,320)
@@ -40,7 +36,21 @@ $acceptBtn.Size = New-Object System.Drawing.Size(75,23)
 $acceptBtn.Text = "Accept"
 $acceptBtn.DialogResult = [System.Windows.Forms.DialogResult]::OK
 $acceptBtn.Font = New-Object System.Drawing.Font("Arial Italic", 9, [System.Drawing.FontStyle]::Italic)
-$form.AcceptButton = $acceptBtn
+$selectBtn.Add_Click({
+    $SelectedFile = Show-OpenFileDialog
+    if ($SelectedFile) {
+        Write-Output "Wybrany plik: $SelectedFile"
+        $BackupLocation = Show-FolderBrowserDialog
+        if ($BackupLocation) {
+            Write-Output "Miejsce docelowe dla kopii zapasowej: $BackupLocation"
+            & "C:\Kopia\PowershellScripts\PowerShell-Learn\Backup_Script_v1\Scripts\logic.ps1" -Source $SelectedFile -Destination $BackupLocation
+        } else {
+            Write-Output "Nie wybrano miejsca docelowego."
+        }
+    } else {
+        Write-Output "Nie wybrano żadnego pliku."
+    }
+})  
 $form.Controls.Add($acceptBtn)
 
 $exitBtn = New-Object System.Windows.Forms.Button
