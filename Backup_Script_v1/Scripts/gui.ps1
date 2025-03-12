@@ -15,6 +15,20 @@ function checkBox_CheckedChanged {
     }
 }
 
+$SelectedFile = Show-OpenFileDialog
+if ($SelectedFile) {
+    Write-Output "Wybrany plik: $SelectedFile"
+    $BackupLocation = Show-FolderBrowserDialog
+    if ($BackupLocation) {
+        Write-Output "Miejsce docelowe dla kopii zapasowej: $BackupLocation"
+        & "C:\Kopia\PowershellScripts\PowerShell-Learn\Backup_Script_v1\Scripts\logic.ps1" -Source $SelectedFile -Destination $BackupLocation
+    } else {
+        Write-Output "Nie wybrano miejsca docelowego."
+    }
+} else {
+    Write-Output "Nie wybrano żadnego pliku."
+}
+
 $form = New-Object System.Windows.Forms.Form
 $form.Text = "Backup Settings"
 $form.Size = New-Object System.Drawing.Size(500,400)
@@ -33,7 +47,7 @@ $exitBtn = New-Object System.Windows.Forms.Button
 $exitBtn.Location = New-Object System.Drawing.Point(250,320)
 $exitBtn.Size = New-Object System.Drawing.Size(75,23)
 $exitBtn.Text = "Exit"
-$exitBtn.DialogResult = [System.Windows.Forms.DialogResult]::OK
+$exitBtn.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
 $exitBtn.Font = New-Object System.Drawing.Font("Arial Italic", 9, [System.Drawing.FontStyle]::Italic)
 $exitBtn.Add_Click({
     $form.Close()
@@ -57,7 +71,7 @@ $form.Controls.Add($disableCheckbox)
 $form.TopMost = $true
 $result = $form.ShowDialog()
 
-if ($result -eq [System.Windows.Forms.DialogResult]::OK){
+if ($result -eq [System.Windows.Forms.DialogResult]::OK) {
     if ($enableCheckbox.Checked) {
        & "C:\Kopia\PowershellScripts\PowerShell-Learn\Backup_Script_v1\Scripts\logic.ps1" -EnableBackup $true
     } else {
@@ -68,9 +82,9 @@ if ($result -eq [System.Windows.Forms.DialogResult]::OK){
 function Show-OpenFileDialog {
     $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
     $OpenFileDialog.InitialDirectory = [System.Environment]::GetFolderPath('Desktop')
-    $OpenFileDialog.Filter = "Wszystkie pliki(*.*)|*.*"
+    $OpenFileDialog.Filter = "Wszystkie pliki (*.*)|*.*"
     $OpenFileDialog.Multiselect = $false
-    $DialogResult= $OpenFileDialog.ShowDialog()
+    $DialogResult = $OpenFileDialog.ShowDialog()
     if ($DialogResult -eq [System.Windows.Forms.DialogResult]::OK) {
         return $OpenFileDialog.FileName
     } else {
@@ -78,14 +92,15 @@ function Show-OpenFileDialog {
     }
 }
 
-$SelectedFile = Show-OpenFileDialog
-if ($SelectedFile) {
-    Write-Output "Wybrany plik: $SelectedFile"
-    $BackupLocation = Show-FolderBrowserDialog
-    if ($BackupLocation) {
-        Write-Output "Miejsce docelowe dla kopii zapasowej: $BackupLocation"
-        "C:\Kopia\PowershellScripts\PowerShell-Learn\Backup_Script_v1\Scripts\logic.ps1" -Source $SelectedFile -Destination $BackupLocation
+function Show-FolderBrowserDialog {
+    $FolderBrowserDialog = New-Object System.Windows.Forms.FolderBrowserDialog
+    $FolderBrowserDialog.Description = "Wybierz miejsce docelowe kopii zapasowej"
+    $FolderBrowserDialog.ShowNewFolderButton = $true
+    $DialogResult = $FolderBrowserDialog.ShowDialog()
+    if ($DialogResult -eq [System.Windows.Forms.DialogResult]::OK) {
+        return $FolderBrowserDialog.SelectedPath
     } else {
-        Write-Output "Nie wybrano miejca docelowego"
+        return $null
     }
 }
+
