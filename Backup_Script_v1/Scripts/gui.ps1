@@ -26,7 +26,7 @@ $selectPthBtn.Size = New-Object System.Drawing.Size(100,23)
 $selectPthBtn.Text = "Backup location:"
 $selectPthBtn.Font = New-Object System.Drawing.Font("Arial Italic", 9, [System.Drawing.FontStyle]::Italic)
 $selectPthBtn.Add_Click({
-    selectBtnFn
+    selectBupPth
 })
 $form.Controls.Add($selectPthBtn)
 

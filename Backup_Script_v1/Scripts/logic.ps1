@@ -78,7 +78,6 @@ function selectBupPth {
     } else {
         Write-Output "Nie wybrano miejsca docelowego."
     }
-    
 }
 
 function checkBox_CheckedChanged {
