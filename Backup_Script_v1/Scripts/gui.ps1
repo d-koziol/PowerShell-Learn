@@ -14,12 +14,26 @@ $selectBtn = New-Object System.Windows.Forms.Button
 $selectBtn.Location = New-Object System.Drawing.Point(110,200)
 $selectBtn.Size = New-Object System.Drawing.Size(75,23)
 $selectBtn.Text = "Choose file:"
-$selectBtn.DialogResult = [System.Windows.Forms.DialogResult]::OK
 $selectBtn.Font = New-Object System.Drawing.Font("Arial Italic", 9, [System.Drawing.FontStyle]::Italic)
 $selectBtn.Add_Click({
     selectBtnFn
 })
 $form.Controls.Add($selectBtn)
+
+$selectPthBtn = New-Object System.Windows.Forms.Button
+$selectPthBtn.Location = New-Object System.Drawing.Point(110,230)
+$selectPthBtn.Size = New-Object System.Drawing.Size(100,23)
+$selectPthBtn.Text = "Backup location:"
+$selectPthBtn.Font = New-Object System.Drawing.Font("Arial Italic", 9, [System.Drawing.FontStyle]::Italic)
+$selectPthBtn.Add_Click({
+    selectBtnFn
+})
+$form.Controls.Add($selectPthBtn)
+
+$pathLabel = New-Object System.Windows.Forms.Label
+$pathLabel.Location = New-Object System.Drawing.Point(200,200)
+$pathLabel.Size = New-Object System.Drawing.Size(250,23)
+$form.Controls.Add($pathLabel)
 
 $acceptBtn = New-Object System.Windows.Forms.Button
 $acceptBtn.Location = New-Object System.Drawing.Point(150,320)

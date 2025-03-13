@@ -62,20 +62,23 @@ if ($EnableBackup) {
     Write-Output "Daily backup disabled."
 }
 
-function selectBtnFn() {
+function selectBtnFn {
     $SelectedFile = Show-OpenFileDialog
     if ($SelectedFile) {
-        Write-Output "Wybrany plik: $SelectedFile"
-        $BackupLocation = Show-FolderBrowserDialog
-        if ($BackupLocation) {
-            Write-Output "Miejsce docelowe dla kopii zapasowej: $BackupLocation"
-            & "C:\Kopia\PowershellScripts\PowerShell-Learn\Backup_Script_v1\Scripts\logic.ps1" -Source $SelectedFile -Destination $BackupLocation
-        } else {
-            Write-Output "Nie wybrano miejsca docelowego."
-        }
+        $pathLabel.Text = "Chosen file: $SelectedFile"
     } else {
         Write-Output "Nie wybrano żadnego pliku."
     }
+}
+
+function selectBupPth {
+    $BackupLocation = Show-FolderBrowserDialog
+    if ($BackupLocation) {
+        $pathLabel.Text = "Chosen backup path: $BackupLocation"
+    } else {
+        Write-Output "Nie wybrano miejsca docelowego."
+    }
+    
 }
 
 function checkBox_CheckedChanged {
